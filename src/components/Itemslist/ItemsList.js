@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { setCurrentPath, storeSelItem } from '../../actions';
 import { apiurl } from '../../constants';
 import './itemslist.css';
+ 
 /**
- * @desc This component is the second page of application which gets the list of Items from public api.
- * @param setCurrentPath : Calls this method defined in action to set current path
- */
+* @desc This component is the second page of application which gets the list of Items from public api.
+* @param setCurrentPath : Calls this method defined in action to set current path
+*/
 
 class ItemsList extends React.Component {
   constructor(props) {
@@ -20,16 +21,20 @@ class ItemsList extends React.Component {
    * @desc: Gets all the items from the public api
    */
   async componentDidMount() {
+    this.getAllItems();
      
+  }
+
+  async getAllItems() {
     try {
       const response = await fetch(apiurl.ENTRIESAPI);
-      if(response.status === 200){
-       const  allItems = await response.json();
-        this.setState({ itemsList: allItems.entries,loading: false });
-      }else if (response.status === 404){
+      if (response.status === 200) {
+        const allItems = await response.json();
+        this.setState({ itemsList: allItems.entries, loading: false });
+      } else if (response.status === 404) {
         alert('Sorry,this page isn not  available');
       }
-       
+
     } catch (error) {
       console.log(error);
       alert('Something wrong. Please try again');
@@ -42,34 +47,34 @@ class ItemsList extends React.Component {
   assignItem = item => { // bound arrow function handler
     this.props.onSelItem(item);
     this.props.history.push({
-      pathname: "/selItem/"
+      pathname: "/selItem/",
+      state: { item: item }
     });
-
   }
-     
+
   render() {
-    
+
     return (
-    
-     <div class="itemContainer">
+
+      <div class="itemContainer">
         <div class="title">UBS APP </div>
         <div class="index">Index</div>
         <div class="idxline"></div>
-        {this.state.loading ? <div>Loading...</div>: 
-     (<div>{this.state.itemsList.map(item => (
-        <ul>  <li key={item} onClick={e => this.assignItem(item)}>
-          <a >{item.API} </a>
-        </li></ul>
-      ))}</div>)
-  }
-    
-   </div>);
+        {this.state.loading ? <div>Loading...</div> :
+          (<div>{this.state.itemsList.map(item => (
+            <ul>  <li key={item} onClick={e => this.assignItem(item)}>
+              <a >{item.API} </a>
+            </li></ul>
+          ))}</div>)
+        }
+
+      </div>);
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    selItem:state.selItem
+    selItem: state.selItem
   }
 };
 
