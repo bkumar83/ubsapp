@@ -58,7 +58,9 @@ class ItemsList extends React.Component {
 
       <div class="itemContainer">
         <div class="title">UBS APP </div>
-        <div class="index">Index</div>
+        {/* <div class="index" data-test-id="index">Index</div> */}
+        <div class="index" data-test-id="index">{this.props.selItem}</div>
+
         <div class="idxline"></div>
         {this.state.loading ? <div>Loading...</div> :
           (<div>{this.state.itemsList.map(item => (
@@ -82,6 +84,7 @@ const mapDispachToProps = (dispatch) => {
   return {
     currentpath: pathValue => (dispatch(setCurrentPath(pathValue))),
     onSelItem: item => (dispatch(storeSelItem(item))),
+    increment:() => dispatch({type: "INCREMENT"})
 
   }
 };
