@@ -2,7 +2,7 @@
 const initialState = {
   currentpath:'/',
   selItem:null
-};
+ };
 
 const itemReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -18,7 +18,7 @@ const itemReducer = (state = initialState, action) => {
     case "STOREITEM":
       return {
         ...state,
-        selitem:action.payload.selItem
+        selItem:action.payload.selItem
       }
       
       default : return newState;
